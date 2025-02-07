@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Inventaario</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'login.css' %}">
+    </head>
+<body>
+    <main>
+        <h2>Tabla de Zapatos</h2>
+        <button onclick="window.location.href='{% url 'zapatos'%}'" type="button" class="btn btn-success">Agregar Zapato</button>
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Modelo</th>
+                    <th scope="col">Talla</th>
+                    <th scope="col">Color</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for zapato in zapatos %}
+                <tr class="table-active">
+                    <td>{{ zapato.id }}</td>
+                    <td>{{ zapato.marca }}</td>
+                    <td>{{ zapato.modelo }}</td>
+                    <td>{{ zapato.talla }}</td>
+                    <td>{{ zapato.color }}</td>
+                    <td>{{ zapato.precio }}</td>
+                    <td>{{ zapato.stock }}</td>
+                    <td>{{ zapato.descripcion }}</td>
+                    <td>
+                        <a href="{% url 'actualizar' zapato.id %}" class="btn btn-primary">Actualizar</a>
+                        <a href="{% url 'eliminar' zapato.id %}" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</body>
+</html>
