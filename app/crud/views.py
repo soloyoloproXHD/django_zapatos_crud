@@ -4,13 +4,13 @@ from .models import Usuario, Zapato
 
 # Create your views here.
 class User:
-    def login_page(request):
+    def login_page(request): #Método para mostrar la página de login
         return render(request, 'login.html')
     
-    def register_page(request):
+    def register_page(request): #Método para mostrar la página de registro
         return render(request, 'register.html')
     
-    def validate_user(request):
+    def validate_user(request): #Método para validar el usuario
         if request.method == 'POST':
             email = request.POST.get("email")
             password = request.POST.get("password")
@@ -19,7 +19,7 @@ class User:
                 messages.success(request, 'Usuario autenticado correctamente.')
                 return redirect('tabla')
     
-    def register_user(request):
+    def register_user(request): #Método para registrar un usuario
         if request.method == 'POST':
             email = request.POST.get("email")
             password = request.POST.get("password")
@@ -34,20 +34,20 @@ class User:
         return render(request, render('register.html'))
 
 class Shoes:
-    def zapato_page(request):
+    def zapato_page(request): #Método para mostrar la página de zapatos
         return render(request, 'zapatos.html')
     
-    def tabla_page(request):
+    def tabla_page(request): #Método para mostrar la tabla de zapatos
         zapatos = Zapato.objects.all()
         data = zapatos.values()
         return render(request, 'tabla.html', {'zapatos': data})
     
-    def eliminar_zapato(request, id):
+    def eliminar_zapato(request, id): #Método para eliminar un zapato
         Zapato.objects.filter(id=id).delete()
         messages.success(request, 'Zapato eliminado correctamente.')
         return redirect('tabla')
     
-    def actualizar_zapato(request, id):
+    def actualizar_zapato(request, id): #Método para actualizar un zapato
         zapato = get_object_or_404(Zapato, id=id)
         if request.method == 'POST':
             zapato.marca = request.POST.get('marca')
@@ -63,7 +63,7 @@ class Shoes:
             return redirect('tabla')
         return render(request, 'zapatos.html', {'zapato': zapato})
     
-    def register_zapato(request):
+    def register_zapato(request): #Método para registrar un zapato
         if request.method == 'POST':
             marca = request.POST.get("marca")
             modelo = request.POST.get("modelo")
@@ -73,7 +73,8 @@ class Shoes:
             stock = request.POST.get("stock")
             descripcion = request.POST.get("descripcion")
             
-            Zapato.objects.create(
+            #Se crea el zapato con los datos ingresados
+            Zapato.objects.create( 
                 marca=marca, 
                 modelo=modelo, 
                 talla=talla, 
