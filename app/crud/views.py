@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from .models import Usuario, Zapato
+from .fabricas import Usuario_Factory, Zapato_Factory
 
 # Create your views here.
 class User:
@@ -27,8 +28,10 @@ class User:
             if Usuario.objects.filter(email=email).exists():
                 messages.error(request, 'El email ya se encuentra registrado')
             else:
-                usuario = Usuario.objects.create(email=email, password=password)
-                usuario.save()
+                # usuario = Usuario.objects.create(email=email, password=password)
+                # usuario.save()
+                fabrica_usuario = Usuario_Factory() #Aquí se la instancia de la fabrica
+                fabrica_usuario.create(email=email, password=password) #Aquí se crea el usuario 
                 messages.success(request, 'Usuario registrado correctamente.')
                 return redirect('login')
         return render(request, render('register.html'))
@@ -73,16 +76,17 @@ class Shoes:
             stock = request.POST.get("stock")
             descripcion = request.POST.get("descripcion")
             
-            Zapato.objects.create(
+            zapato_factory = Zapato_Factory()
+            zapato_factory.create(
                 marca=marca, 
                 modelo=modelo, 
-                talla=talla, 
+                talla=int(talla), 
                 color=color, 
-                precio=precio, 
-                stock=stock, 
-                descripcion=descripcion,
-                estado=True
+                precio=float(precio), 
+                stock=int(stock), 
+                descripcion=descripcion
             )
+            
             messages.success(request, 'Zapato registrado correctamente.')
         return redirect('tabla')
             
